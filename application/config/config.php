@@ -23,7 +23,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/MyAccordi';
+
+
+
+/***********************************************************************
+*  url donde se encuentra almacenada la aplicacion dentro del servidor *
+************************************************************************/
+$config['base_url'] = 'http://localhost/Codeigniter-Tank_Auth';
 
 /*
 |--------------------------------------------------------------------------
