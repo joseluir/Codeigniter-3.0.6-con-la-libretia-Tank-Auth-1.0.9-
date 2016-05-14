@@ -1,4 +1,12 @@
+<head>
+	
+	<title>Iniciar Sesión</title>
+	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>public/css/formulario.css"/>
+	
+</head>
+
 <?php
+
 $login = array(
 	'name'	=> 'login',
 	'id'	=> 'login',
@@ -7,11 +15,11 @@ $login = array(
 	'size'	=> 30,
 );
 if ($login_by_username AND $login_by_email) {
-	$login_label = 'Correo o Apodo';
+	$login_label = '* Correo o Apodo';
 } else if ($login_by_username) {
-	$login_label = 'Apodo';
+	$login_label = '* Apodo';
 } else {
-	$login_label = 'Correo';
+	$login_label = '* Correo';
 }
 $password = array(
 	'name'	=> 'password',
@@ -31,18 +39,33 @@ $captcha = array(
 	'maxlength'	=> 8,
 );
 ?>
+
+<h2>Iniciar Sesión</h2>
+
 <?php echo form_open($this->uri->uri_string()); ?>
+
+<p></strong>los campos con * son obligatorios</strong></p>
 
 <table>
 	<tr>
 		<td><?php echo form_label($login_label, $login['id']); ?></td>
 		<td><?php echo form_input($login); ?></td>
-		<td style="color: red;"><?php echo form_error($login['name']); ?><?php echo isset($errors[$login['name']])?$errors[$login['name']]:''; ?></td>
+		<td>&nbsp</td>
 	</tr>
 	<tr>
-		<td><?php echo form_label('Contraseña', $password['id']); ?></td>
+		<td>&nbsp</td>
+		<td style="color: red;"><?php echo form_error($login['name']); ?><?php echo isset($errors[$login['name']])?$errors[$login['name']]:''; ?></td>
+		<td>&nbsp</td>
+	</tr>
+	<tr>
+		<td><?php echo form_label('* Contraseña', $password['id']); ?></td>
 		<td><?php echo form_password($password); ?></td>
+		<td>&nbsp</td>
+	</tr>
+	<tr>
+		<td>&nbsp</td>
 		<td style="color: red;"><?php echo form_error($password['name']); ?><?php echo isset($errors[$password['name']])?$errors[$password['name']]:''; ?></td>
+		<td>&nbsp</td>
 	</tr>
 
 	<?php if ($show_captcha) {
@@ -74,9 +97,15 @@ $captcha = array(
 		</td>
 	</tr>
 	<tr>
-		<td><?php echo form_label('Código confirmación', $captcha['id']); ?></td>
+		<td><?php echo form_label('* Código confirmación', $captcha['id']); ?></td>
 		<td><?php echo form_input($captcha); ?></td>
+		<td>&nbsp</td>
+		
+	</tr>
+	<tr>
+		<td>&nbsp</td>
 		<td style="color: red;"><?php echo form_error($captcha['name']); ?></td>
+		<td>&nbsp</td>
 	</tr>
 	<?php }
 	} ?>
@@ -90,7 +119,7 @@ $captcha = array(
 	
 	<tr>
 		<td colspan="3">
-			<?php echo form_submit('submit', 'Ingresar'); ?>
+			<?php echo form_submit('submit', 'Iniciar'); ?>
 		</td>
 	</tr>
 	

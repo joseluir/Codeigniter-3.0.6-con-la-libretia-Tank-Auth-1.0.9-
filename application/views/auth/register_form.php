@@ -1,5 +1,12 @@
-<?php
+<head>
+	
+	<title>Registro</title>
+	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>public/css/formulario.css"/>
+	
+</head>
 
+
+<?php
 if ($use_username) {
 	$username = array(
 		'name'	=> 'username',
@@ -60,46 +67,85 @@ $captcha = array(
 	'maxlength'	=> 8,
 );
 ?>
+
+<h2>Registrar</h2>
+
 <?php echo form_open_multipart($this->uri->uri_string()); ?>
+
+<p></strong>los campos con * son obligatorios</strong></p>
+
 <table>
 	<?php if ($use_username) { ?>
 	<tr>
-		<td><?php echo form_label('Apodo', $username['id']); ?></td>
+		<td><?php echo form_label('* Apodo', $username['id']); ?></td>
 		<td><?php echo form_input($username); ?></td>
+		<td>&nbsp</td>
+		</tr>
+	<tr>
+		<td>&nbsp</td>
 		<td style="color: red;"><?php echo form_error($username['name']); ?><?php echo isset($errors[$username['name']])?$errors[$username['name']]:''; ?></td>
+		<td>&nbsp</td>
 	</tr>
 	<?php } ?>
 	<tr>
-		<td><?php echo form_label('Correo', $email['id']); ?></td>
+		<td><?php echo form_label('* Correo', $email['id']); ?></td>
 		<td><?php echo form_input($email); ?></td>
+		<td>&nbsp</td>
+		</tr>
+	<tr>
+		<td>&nbsp</td>
 		<td style="color: red;"><?php echo form_error($email['name']); ?><?php echo isset($errors[$email['name']])?$errors[$email['name']]:''; ?></td>
+		<td>&nbsp</td>
 	</tr>
 	<tr>
-		<td><?php echo form_label('Contraseña', $password['id']); ?></td>
+		<td><?php echo form_label('* Contraseña', $password['id']); ?></td>
 		<td><?php echo form_password($password); ?></td>
+		<td>&nbsp</td>		
+	</tr>
+	<tr>
+		<td>&nbsp</td>
 		<td style="color: red;"><?php echo form_error($password['name']); ?></td>
+		<td>&nbsp</td>
 	</tr>
 	<tr>
-		<td><?php echo form_label('Confirmar Contraseña', $confirm_password['id']); ?></td>
+		<td><?php echo form_label('* Confirmar Contraseña', $confirm_password['id']); ?></td>
 		<td><?php echo form_password($confirm_password); ?></td>
+		<td>&nbsp</td>
+	</tr>
+	<tr>
+		<td>&nbsp</td>
 		<td style="color: red;"><?php echo form_error($confirm_password['name']); ?></td>
+		<td>&nbsp</td>
 	</tr>
-	
 	<tr>
-		<td><?php echo form_label('Nombres', $name['id']); ?></td>
+		<td><?php echo form_label('* Nombres', $name['id']); ?></td>
 		<td><?php echo form_input($name); ?></td>
-		<td style="color: red;"><?php echo form_error($name['name']); ?><?php echo isset($errors[$name['name']])?$errors[$name['name']]:''; ?></td>
+		<td>&nbsp</td>
 	</tr>
-	
 	<tr>
-		<td><?php echo form_label('Apellidos', $last_name['id']); ?></td>
+		<td>&nbsp</td>
+		<td style="color: red;"><?php echo form_error($name['name']); ?><?php echo isset($errors[$name['name']])?$errors[$name['name']]:''; ?></td>
+		<td>&nbsp</td>
+	</tr>
+	<tr>
+		<td><?php echo form_label('* Apellidos', $last_name['id']); ?></td>
 		<td><?php echo form_input($last_name); ?></td>
+		<td>&nbsp</td>
+		</tr>
+	<tr>
+		<td>&nbsp</td>
 		<td style="color: red;"><?php echo form_error($last_name['name']); ?><?php echo isset($errors[$last_name['name']])?$errors[$last_name['name']]:''; ?></td>
+		<td>&nbsp</td>
 	</tr>
 	<tr>
 		<td><?php echo form_label('Fotografia',$image['id']);?></td>
 		<td><?php echo form_upload($image);?></td>
+		<td>&nbsp</td>
+	</tr>
+	<tr>
+		<td>&nbsp</td>
 		<td style="color: red;"><?php echo form_error($image['name']); ?><?php echo isset($errors[$image['name']])?$errors[$image['name']]:''; ?></td>
+		<td>&nbsp</td>
 	</tr>
 	<?php if ($captcha_registration) {
 		if ($use_recaptcha) { ?>
@@ -130,9 +176,14 @@ $captcha = array(
 		</td>
 	</tr>
 	<tr>
-		<td><?php echo form_label('Código confirmación', $captcha['id']); ?></td>
+		<td><?php echo form_label('* Código confirmación', $captcha['id']); ?></td>
 		<td><?php echo form_input($captcha); ?></td>
+		<td>&nbsp</td>		
+	</tr>
+	<tr>
+		<td>&nbsp</td>
 		<td style="color: red;"><?php echo form_error($captcha['name']); ?></td>
+		<td>&nbsp</td>
 	</tr>
 	<?php }
 	} ?>
