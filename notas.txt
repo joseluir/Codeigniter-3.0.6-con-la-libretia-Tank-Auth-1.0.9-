@@ -1,0 +1,20 @@
+en la ruta application\libraries\ dentro del archivo Tank_auth.php 
+
+esta el metodo create_user:
+dentro de este se definen los valores que va tener un nuevo usuario en el momento de registrarse, 
+los valores que se ingresan aqui son los que se asocian al usuario pero que no es este quien los
+ingresa
+
+en la ruta application\config\ dentro del archivo tank_auth.php
+
+podemos configurar algunas opciones como:
+
+si va a trabajar con captcha
+si ve a trabajar con activacion por medio de correo electronico
+
+el max y min de letras que puede tener el apodo (username)
+el max y min de letras que puede tener la contraseña (password) 
+
+si va permitir que se ingrese a la app por medio de apodo
+
+entre otras cosas...
