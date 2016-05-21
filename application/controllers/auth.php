@@ -11,6 +11,9 @@ class Auth extends CI_Controller
 		$this->load->helper('security');
 		$this->load->library('tank_auth');
 		$this->lang->load('tank_auth');
+		$this->load->model('tank_auth/users');
+		$this->load->model('file');
+		$this->load->library('session');
 	}
 
 	function index()
@@ -22,7 +25,54 @@ class Auth extends CI_Controller
 		}
 	}
 
-	/**
+	/*********************************************************************************************
+	*  funcion que permite subir la imagen dentro de la carpeta public/img_users/      @_@       *
+	*  y ademas guardar el nombre de esta imagen dentro de la tabla users en la base de datos    *															   *
+	**********************************************************************************************/
+	 public function subir(){
+	 	$aux = 0;
+		
+		$user_id = $this->tank_auth->get_user_id();
+	 	$data['user_id'] = $user_id;
+		$data['image']	= $this->tank_auth->get_image();
+		
+		$post = $this->input->post();
+		$ruta = $this->file->UploadImage('./public/img_users/','No es posible subir la imagen');
+		
+		($ruta != NULL) ? $this->users->insertar_foto($user_id, $ruta) : ($aux = 1) ;
+		
+		if ($aux == 1) {
+			$this->load->view('cargar_imagen',$data);
+		} else {
+			$data['username']	= $this->tank_auth->get_username();
+			$data['name']	= $this->tank_auth->get_name();
+		
+			$this->session->set_userdata(array(
+				
+				'image'	=> $ruta,
+				
+			));
+			
+			$this->load->view('welcome', $data);
+		}
+		
+	}
+	
+	/******************************************************************************************************************************************
+	*  funcion que permite cargar la vista en la cual se ingresa la imagen para posteriormente almacenarla en la base de datos    @_@         *
+	*  ademas al momento de cargar la imagen se le envia el id correspondiente del usuario que se obtiene de la sesion que esta iniciada      *															   *
+	*******************************************************************************************************************************************/
+	public function cargar_vista(){
+		
+		$data['user_id'] = $this->tank_auth->get_user_id();
+		$data['image']	= $this->tank_auth->get_image();
+		$this->load->view('cargar_imagen',$data);
+	} 
+	 
+	 
+	 
+	 
+	 /**
 	 * Login user on the site
 	 *
 	 * @return void
@@ -125,6 +175,7 @@ class Auth extends CI_Controller
 			$this->_show_message($this->lang->line('auth_message_registration_disabled'));
 
 		} else {
+			
 			$use_username = $this->config->item('use_username', 'tank_auth');
 			if ($use_username) {
 				$this->form_validation->set_rules('username', 'apodo', 'trim|required|xss_clean|min_length['.$this->config->item('username_min_length', 'tank_auth').']|max_length['.$this->config->item('username_max_length', 'tank_auth').']|alpha_dash');
@@ -136,7 +187,7 @@ class Auth extends CI_Controller
 			$this->form_validation->set_rules('name', 'nombres', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('last_name', 'apellidos', 'trim|required|xss_clean');
 			
-			$this->form_validation->set_rules('image');
+			//$this->form_validation->set_rules('image');
 			
 			$captcha_registration	= $this->config->item('captcha_registration', 'tank_auth');
 			$use_recaptcha			= $this->config->item('use_recaptcha', 'tank_auth');
@@ -151,14 +202,16 @@ class Auth extends CI_Controller
 
 			$email_activation = $this->config->item('email_activation', 'tank_auth');
 
-			if ($this->form_validation->run()) {								// validation ok
-				if (!is_null($data = $this->tank_auth->create_user(
+				
+
+			if ($this->form_validation->run()) {	// validation ok
+				
+					if (!is_null($data = $this->tank_auth->create_user(
 						$use_username ? $this->form_validation->set_value('username') : '',
 						$this->form_validation->set_value('email'),
 						$this->form_validation->set_value('password'),
 						$this->form_validation->set_value('name'), 
 						$this->form_validation->set_value('last_name'),
-						$this->form_validation->set_value('image'),
 						$email_activation))) {									// success
 
 					$data['site_name'] = $this->config->item('website_name', 'tank_auth');
@@ -384,7 +437,7 @@ class Auth extends CI_Controller
 
 		} else {
 			$this->form_validation->set_rules('password', 'contraseña', 'trim|required|xss_clean');
-			$this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|valid_email');
+			$this->form_validation->set_rules('email', 'correo', 'trim|required|xss_clean|valid_email');
 
 			$data['errors'] = array();
 

@@ -23,6 +23,27 @@ class Users extends CI_Model
 		$this->table_name			= $ci->config->item('db_table_prefix', 'tank_auth').$this->table_name;
 		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'tank_auth').$this->profile_table_name;
 	}
+	
+	/*********************************************************************************************
+	*  la funcion guarda el nombre de la foto dentro de la tabla users asociada a un usuario,    *
+	*  la imagen esta esta dentro de public/img_users                                  @_@       *
+	**********************************************************************************************/
+	
+	function insertar_foto($id_usuario, $ruta_imagen)
+	{
+		
+		$this->db->set('image', $ruta_imagen);
+		$this->db->where('id', $id_usuario);
+
+		$this->db->update($this->table_name);
+		
+		$query = $this->db->get($this->table_name);
+		
+		if ($query->num_rows() == 1) return TRUE;
+		return FALSE;
+		
+	}
+	
 
 	/**
 	 * Get user record by Id

@@ -53,14 +53,6 @@ $last_name = array(
 	'maxlength'	=> 50,
 	'size'	=> 30,
 );
-$image = array(
-	'name'	=> 'image',
-	'id'	=> 'image',
-	'allowed_types' => 'gif|jpg|png',
-    'max_size'   => 1000,
-    'max_width'  => 1024,
-    'max_height' => 768,
-);
 $captcha = array(
 	'name'	=> 'captcha',
 	'id'	=> 'captcha',
@@ -69,8 +61,12 @@ $captcha = array(
 ?>
 
 <h2>Registrar</h2>
-
-<?php echo form_open_multipart($this->uri->uri_string()); ?>
+<?php
+/********************************************************************
+ * form_open_multipar(); inicia un tag form y la accion que ocurra  *
+ * dentro de este sera manejada por uri->uri_string()       @_@     *
+ ********************************************************************/
+ echo form_open($this->uri->uri_string()); ?>
 
 <p></strong>los campos con * son obligatorios</strong></p>
 
@@ -137,16 +133,7 @@ $captcha = array(
 		<td style="color: red;"><?php echo form_error($last_name['name']); ?><?php echo isset($errors[$last_name['name']])?$errors[$last_name['name']]:''; ?></td>
 		<td>&nbsp</td>
 	</tr>
-	<tr>
-		<td><?php echo form_label('Fotografia',$image['id']);?></td>
-		<td><?php echo form_upload($image);?></td>
-		<td>&nbsp</td>
-	</tr>
-	<tr>
-		<td>&nbsp</td>
-		<td style="color: red;"><?php echo form_error($image['name']); ?><?php echo isset($errors[$image['name']])?$errors[$image['name']]:''; ?></td>
-		<td>&nbsp</td>
-	</tr>
+	
 	<?php if ($captcha_registration) {
 		if ($use_recaptcha) { ?>
 	<tr>

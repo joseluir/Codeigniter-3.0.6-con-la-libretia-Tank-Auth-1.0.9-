@@ -68,11 +68,15 @@ class Tank_auth
 						$this->error = array('banned' => $user->ban_reason);
 
 					} else {
+						/***************************************************************************
+						* Se define los valores que se almacenan cada que se inicie una sesion @_@ *   																	   *
+						****************************************************************************/
+						
 						$this->ci->session->set_userdata(array(
 								'user_id'	=> $user->id,
 								'username'	=> $user->avatar_name,
 								'name'	=> $user->name,
-								'image'	=> base64_encode($user->image),
+								'image'	=> $user->image,
 								'status'	=> ($user->activated == 1) ? STATUS_ACTIVATED : STATUS_NOT_ACTIVATED,
 						));
 
@@ -150,17 +154,40 @@ class Tank_auth
 	{
 		return $this->ci->session->userdata('username');
 	}
-	
-	
-	function get_image()
-	{
-		return $this->ci->session->userdata('image');
-	}
-
+     
+	 
+	 /**
+	 * Get name
+	 *
+	 * @return	string
+	 */
 	function get_name()
 	{
 		return $this->ci->session->userdata('name');
 	}
+
+
+	/**
+	 * Get image
+	 *
+	 * @return	string
+	 */
+	function get_image()
+	{
+		return $this->ci->session->userdata('image');
+	}
+	
+	
+	/**
+	 * Get status
+	 *
+	 * @return	string
+	 */
+	function get_status()
+	{
+		return $this->ci->session->userdata('status');
+	}
+	
 
 	/**
 	 * Create new user on the site and return some data about it:
@@ -172,7 +199,7 @@ class Tank_auth
 	 * @param	bool
 	 * @return	array
 	 */
-	function create_user($username, $email, $password, $name, $last_name, $email_activation, $image)
+	function create_user($username, $email, $password, $name, $last_name, $email_activation)
 	{
 		if ((strlen($username) > 0) AND !$this->ci->users->is_username_available($username)) {
 			$this->error = array('username' => 'auth_username_in_use');
@@ -187,9 +214,8 @@ class Tank_auth
 					$this->ci->config->item('phpass_hash_portable', 'tank_auth'));
 			$hashed_password = $hasher->HashPassword($password);
 
-			if (is_null($image)){
-			
-				$data = array(
+						
+			$data = array(
 					'avatar_name'	=> $username,
 					'email'		=> $email,
 					'password'	=> $hashed_password,
@@ -197,24 +223,9 @@ class Tank_auth
 					'last_name' => $last_name,
 					'rol_id'	=> '1',
 					'last_ip'	=> $this->ci->input->ip_address(),
-				);
+			);
 			
-			}
-			else{
-				
-				$data = array(
-					'avatar_name'	=> $username,
-					'email'		=> $email,
-					'password'	=> $hashed_password,
-					'name'		=> $name,
-					'last_name' => $last_name,
-					'rol_id'	=> '1',
-					'image'     => $image,
-					'last_ip'	=> $this->ci->input->ip_address(),
-				);
-				
-			}
-
+			
 			if ($email_activation) {
 				$data['new_email_key'] = md5(rand().microtime());
 			}
