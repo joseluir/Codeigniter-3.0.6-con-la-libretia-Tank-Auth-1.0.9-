@@ -1,10 +1,98 @@
-	form 
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: white;;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: center;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+    figure img 
+	{
+    width: 80%;
+    box-shadow: 0 0 10px; 
+    border-radius: 20px;
+	}
+	figcaption 
+	{
+    font-family: Century Gothic;
+    padding: 20px;
+    font-size: 20px;
+    color: #2A2A00;
+	}
+	.img-perfil
+	{
+    background: #ECECEA;
+    border-radius: 10px;
+    box-shadow: 0 0 10px;
+    width: 90%;
+    text-align: center;
+    margin: 23px; 
+    padding: 10px;
+	}
+
+/*	form 
 	{
 		text-align: center;
 		border-bottom-style: double;
 		padding: 10px;
 		border-top-style: double;
 		margin: 20px;
+	}
+	div
+	{
+    background: #ECECEA;
+    border-radius: 10px;
+    box-shadow: 0 0 10px;
+    width: 90%;
+    text-align: center;
+    margin: 23px; 
+    padding: 10px;
+	}
+	figure img 
+	{
+    width: 80%;
+    box-shadow: 0 0 10px; 
+    border-radius: 20px;
+	}
+	figcaption 
+	{
+    font-family: Century Gothic;
+    padding: 20px;
+    font-size: 20px;
+    color: #2A2A00;
 	}
 	table
 	{	
@@ -105,4 +193,4 @@
 		font-size: 15px;
 	
 		font-weight: bold;
-	}
+	} */

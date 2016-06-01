@@ -44,7 +44,6 @@ class Users extends CI_Model
 		
 	}
 	
-
 	/**
 	 * Get user record by Id
 	 *

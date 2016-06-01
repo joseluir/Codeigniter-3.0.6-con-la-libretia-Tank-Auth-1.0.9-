@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /***********************************************************************
 *  url donde se encuentra almacenada la aplicacion dentro del servidor *
 ************************************************************************/
-$config['base_url'] = 'http://localhost/Codeigniter-Tank_Auth';
+$config['base_url'] = 'http://localhost/Myaccordi';
 
 /*
 |--------------------------------------------------------------------------

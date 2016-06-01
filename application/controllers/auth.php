@@ -19,6 +19,9 @@ class Auth extends CI_Controller
 	function index()
 	{
 		if ($message = $this->session->flashdata('message')) {
+			$header['titulo'] = 'Registro Correcto';
+			
+			$this->load->view('templates/headerUnregistered',$header);
 			$this->load->view('auth/general_message', array('message' => $message));
 		} else {
 			redirect('/auth/login/');
@@ -42,6 +45,10 @@ class Auth extends CI_Controller
 		($ruta != NULL) ? $this->users->insertar_foto($user_id, $ruta) : ($aux = 1) ;
 		
 		if ($aux == 1) {
+			$header['titulo'] = 'Imagen Usuario';
+			$header['username']	= $this->tank_auth->get_username();
+			
+			$this->load->view('templates/headerRegistered',$header);
 			$this->load->view('cargar_imagen',$data);
 		} else {
 			$data['username']	= $this->tank_auth->get_username();
@@ -53,7 +60,7 @@ class Auth extends CI_Controller
 				
 			));
 			
-			$this->load->view('welcome', $data);
+			redirect('/auth/cargar_vista/');
 		}
 		
 	}
@@ -66,6 +73,10 @@ class Auth extends CI_Controller
 		
 		$data['user_id'] = $this->tank_auth->get_user_id();
 		$data['image']	= $this->tank_auth->get_image();
+		$header['titulo'] = 'Imagen perfil';
+		$header['username']	= $this->tank_auth->get_username();
+			
+		$this->load->view('templates/headerRegistered',$header);
 		$this->load->view('cargar_imagen',$data);
 	} 
 	 
@@ -79,6 +90,7 @@ class Auth extends CI_Controller
 	 */
 	function login()
 	{
+
 		if ($this->tank_auth->is_logged_in()) {									// logged in
 			redirect('');
 
@@ -118,6 +130,7 @@ class Auth extends CI_Controller
 						$this->form_validation->set_value('remember'),
 						$data['login_by_username'],
 						$data['login_by_email'])) {								// success
+					
 					redirect('');
 
 				} else {
@@ -142,10 +155,16 @@ class Auth extends CI_Controller
 					$data['captcha_html'] = $this->_create_captcha();
 				}
 			}
-			$this->load->view('auth/login_form', $data);
+			
+			$header['titulo'] = 'Iniciar Sesión';
+			
+		
+		   $this->load->view('templates/headerUnregistered',$header);
+		   $this->load->view('auth/login_form',$data);
+						
 		}
 	}
-
+  
 	/**
 	 * Logout user
 	 *
@@ -184,10 +203,8 @@ class Auth extends CI_Controller
 			$this->form_validation->set_rules('password', 'contraseña', 'trim|required|xss_clean|min_length['.$this->config->item('password_min_length', 'tank_auth').']|max_length['.$this->config->item('password_max_length', 'tank_auth').']|alpha_dash');
 			$this->form_validation->set_rules('confirm_password', 'confirmar contraseña', 'trim|required|xss_clean|matches[password]');
 
-			$this->form_validation->set_rules('name', 'nombres', 'trim|required|xss_clean');
-			$this->form_validation->set_rules('last_name', 'apellidos', 'trim|required|xss_clean');
-			
-			//$this->form_validation->set_rules('image');
+			$this->form_validation->set_rules('name', 'nombres', 'trim|required|xss_clean|alpha_dash');
+			$this->form_validation->set_rules('last_name', 'apellidos', 'trim|required|xss_clean|alpha_dash');
 			
 			$captcha_registration	= $this->config->item('captcha_registration', 'tank_auth');
 			$use_recaptcha			= $this->config->item('use_recaptcha', 'tank_auth');
@@ -232,7 +249,7 @@ class Auth extends CI_Controller
 						}
 						unset($data['password']); // Clear password (just for any case)
 
-						$this->_show_message($this->lang->line('auth_message_registration_completed_2').' '.anchor('/auth/login/', 'Login'));
+						$this->_show_message($this->lang->line('auth_message_registration_completed_2').' '.anchor('/auth/login/', 'iniciar sesión.'));
 					}
 				} else {
 					$errors = $this->tank_auth->get_error_message();
@@ -249,6 +266,10 @@ class Auth extends CI_Controller
 			$data['use_username'] = $use_username;
 			$data['captcha_registration'] = $captcha_registration;
 			$data['use_recaptcha'] = $use_recaptcha;
+			
+			$header['titulo'] = 'Registrar';
+			
+			$this->load->view('templates/headerUnregistered',$header);
 			$this->load->view('auth/register_form', $data);
 		}
 	}
@@ -324,7 +345,7 @@ class Auth extends CI_Controller
 			redirect('/auth/send_again/');
 
 		} else {
-			$this->form_validation->set_rules('login', 'correo o apodo', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('login', 'correo o apodo', 'trim|required|xss_clean|alpha_dash');
 
 			$data['errors'] = array();
 
@@ -344,6 +365,11 @@ class Auth extends CI_Controller
 					foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
 				}
 			}
+			$header['titulo'] = 'Recuperar Contraseña';
+			$header['username']	= $this->tank_auth->get_username();
+			
+			$this->load->view('templates/headerUnregistered',$header);
+			
 			$this->load->view('auth/forgot_password_form', $data);
 		}
 	}
@@ -566,11 +592,10 @@ class Auth extends CI_Controller
 		));
 
 		// Save captcha params in session
-		$this->session->set_flashdata(array(
-				'captcha_word' => $cap['word'],
-				'captcha_time' => $cap['time'],
-		));
-
+		$this->session->set_userdata(array(
+								'captcha_word' => $cap['word'],
+								'captcha_time' => $cap['time'],
+						));
 		return $cap['image'];
 	}
 
@@ -582,8 +607,10 @@ class Auth extends CI_Controller
 	 */
 	function _check_captcha($code)
 	{
-		$time = $this->session->flashdata('captcha_time');
-		$word = $this->session->flashdata('captcha_word');
+		$time = $this->tank_auth->get_captcha_time();
+		$word = $this->tank_auth->get_captcha_word();
+		
+		$this->session->set_userdata(array('captcha_time' => '', 'captcha_word' => ''));
 
 		list($usec, $sec) = explode(" ", microtime());
 		$now = ((float)$usec + (float)$sec);
@@ -591,7 +618,7 @@ class Auth extends CI_Controller
 		if ($now - $time > $this->config->item('captcha_expire', 'tank_auth')) {
 			$this->form_validation->set_message('_check_captcha', $this->lang->line('auth_captcha_expired'));
 			return FALSE;
-
+	
 		} elseif (($this->config->item('captcha_case_sensitive', 'tank_auth') AND
 				$code != $word) OR
 				strtolower($code) != strtolower($word)) {

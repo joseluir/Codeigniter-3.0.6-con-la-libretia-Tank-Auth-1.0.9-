@@ -1,5 +1,5 @@
-CREATE DATABASE app_acordes;
-USE app_acordes;
+
+USE myaccordi;
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) COLLATE utf8_bin NOT NULL,
   `name` varchar(50) COLLATE utf8_bin NOT NULL,
   `last_name` varchar(50) COLLATE utf8_bin NOT NULL,
-  `image` longblob,
+  `image`  varchar(250) COLLATE utf8_bin NOT NULL DEFAULT 'usuario_anonimo.jpg',
   `rol_id` tinyint(1) NOT NULL DEFAULT '1',
   `activated` tinyint(1) NOT NULL DEFAULT '1',
   `banned` tinyint(1) NOT NULL DEFAULT '0',

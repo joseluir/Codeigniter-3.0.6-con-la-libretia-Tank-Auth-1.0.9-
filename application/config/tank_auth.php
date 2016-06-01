@@ -7,8 +7,8 @@
 | These details are used in emails sent by authentication library.
 |--------------------------------------------------------------------------
 */
-$config['website_name'] = 'MyAccordi';
-$config['webmaster_email'] = 'joseluisr@unicauca.edu.co';
+$config['website_name'] = 'myaccordi.webcindario.com';
+$config['webmaster_email'] = 'myaccordi.user@gmail.com';
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ $config['phpass_hash_strength'] = 8;
 |--------------------------------------------------------------------------
 */
 $config['allow_registration'] = TRUE;
-$config['captcha_registration'] = TRUE;
+$config['captcha_registration'] = FALSE;
 $config['email_activation'] = FALSE;
 $config['email_activation_expire'] = 60*60*24*2;
 $config['email_account_details'] = TRUE;
@@ -113,9 +113,9 @@ $config['captcha_path'] = 'captcha/';
 $config['captcha_fonts_path'] = 'captcha/fonts/5.ttf';
 $config['captcha_width'] = 400;
 $config['captcha_height'] = 100;
-$config['captcha_font_size'] = 20;
+$config['captcha_font_size'] = 25;
 $config['captcha_grid'] = TRUE;
-$config['captcha_expire'] = 180;
+$config['captcha_expire'] = 250;
 $config['captcha_case_sensitive'] = FALSE;
 
 /*

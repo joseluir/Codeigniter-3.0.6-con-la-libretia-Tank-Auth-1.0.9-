@@ -14,11 +14,10 @@ class Welcome extends CI_Controller
 	{
 		
 		if (!$this->tank_auth->is_logged_in()) {
-		  /*************************************************************************
-		*  Si el usuario no ah iniciado sesion se llama al metodo login que esta * 
-		* dentro del controlador auth.php           @_@                          *
-		**************************************************************************/
-			redirect('/auth/login/');
+			$header['titulo'] = 'Inicio';
+			
+			$this->load->view('templates/headerUnregistered',$header);
+		
 		} else {
 		/***************************************************************************
 		*  De ya haber iniciado sesion mediante los metodos get() que estan dentro *
@@ -28,6 +27,11 @@ class Welcome extends CI_Controller
 			$data['user_id']	= $this->tank_auth->get_user_id();
 			$data['username']	= $this->tank_auth->get_username();
 			$data['name']	= $this->tank_auth->get_name();
+			
+			$header['titulo'] = 'Inicio';
+			$header['username']	= $this->tank_auth->get_username();
+			
+			$this->load->view('templates/headerRegistered',$header);
 			$this->load->view('welcome', $data);
 		}
 	}
